@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dev-Detective | GitHub User Search App</title>
+  <meta
+    name="description"
+    content="Search GitHub users, explore their latest repositories, and compare developers side by side using vanilla JavaScript and the GitHub API."
+  />
+  <link rel="preconnect" href="https://api.github.com" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="page-shell">
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">Week 3 Mission</p>
+        <h1>Dev-Detective</h1>
+        <p class="hero-text">
+          Search any GitHub profile, check their recent work, and switch to Battle Mode to compare two developers side by side.
+        </p>
+      </div>
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <span>Live data from GitHub</span>
+      </div>
+    </header>
+
+    <main class="app-card">
+      <nav class="mode-tabs" aria-label="View switcher">
+        <button class="tab-button is-active" data-tab="search" type="button">Search Mode</button>
+        <button class="tab-button" data-tab="battle" type="button">Battle Mode</button>
+      </nav>
+
+      <section class="panel is-active" id="search-panel" aria-labelledby="search-mode-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="search-mode-heading">Search for a developer</h2>
+            <p>Type any public GitHub username to view the profile details and latest repositories.</p>
+          </div>
+        </div>
+
+        <form id="search-form" class="search-form" novalidate>
+          <label class="input-group">
+            <span class="sr-only">GitHub username</span>
+            <input
+              id="username-input"
+              type="text"
+              name="username"
+              placeholder="Try octocat, torvalds, gaearon..."
+              autocomplete="off"
+              required
+            />
+          </label>
+          <button class="primary-button" type="submit">Search</button>
+        </form>
+
+        <div id="search-feedback" class="feedback" aria-live="polite"></div>
+
+        <section id="profile-result" class="profile-result" aria-live="polite"></section>
+      </section>
+
+      <section class="panel" id="battle-panel" aria-labelledby="battle-mode-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="battle-mode-heading">Battle Mode</h2>
+            <p>Enter two usernames and compare them by followers or total stars.</p>
+          </div>
+
+          <label class="metric-select">
+            <span>Compare by</span>
+            <select id="battle-metric">
+              <option value="followers">Followers</option>
+              <option value="stars">Total Stars</option>
+            </select>
+          </label>
+        </div>
+
+        <form id="battle-form" class="battle-form" novalidate>
+          <label class="input-group">
+            <span class="sr-only">First GitHub username</span>
+            <input
+              id="battle-user-one"
+              type="text"
+              placeholder="First username"
+              autocomplete="off"
+              required
+            />
+          </label>
+
+          <label class="input-group">
+            <span class="sr-only">Second GitHub username</span>
+            <input
+              id="battle-user-two"
+              type="text"
+              placeholder="Second username"
+              autocomplete="off"
+              required
+            />
+          </label>
+
+          <button class="primary-button" type="submit">Compare</button>
+        </form>
+
+        <div id="battle-feedback" class="feedback" aria-live="polite"></div>
+        <section id="battle-result" class="battle-grid" aria-live="polite"></section>
+      </section>
+    </main>
+  </div>
+
+  <template id="profile-card-template">
+    <article class="profile-card">
+      <div class="profile-header">
+        <img class="avatar" alt="" />
+        <div class="profile-meta">
+          <div class="title-row">
+            <h3 class="name"></h3>
+            <a class="username-link" href="" target="_blank" rel="noreferrer noopener"></a>
+          </div>
+          <p class="bio"></p>
+          <ul class="quick-stats">
+            <li><span>Followers</span><strong class="followers"></strong></li>
+            <li><span>Following</span><strong class="following"></strong></li>
+            <li><span>Public Repos</span><strong class="repos"></strong></li>
+          </ul>
+          <div class="meta-list">
+            <p><strong>Joined:</strong> <span class="joined"></span></p>
+            <p><strong>Portfolio:</strong> <span class="portfolio"></span></p>
+          </div>
+        </div>
+      </div>
+
+      <div class="repo-section">
+        <div class="repo-title-row">
+          <h4>Latest repositories</h4>
+          <a class="view-profile-link" href="" target="_blank" rel="noreferrer noopener">View profile</a>
+        </div>
+        <ul class="repo-list"></ul>
+      </div>
+    </article>
+  </template>
+
+  <template id="battle-card-template">
+    <article class="battle-card">
+      <div class="battle-top">
+        <img class="avatar" alt="" />
+        <div>
+          <h3 class="name"></h3>
+          <a class="username-link" href="" target="_blank" rel="noreferrer noopener"></a>
+        </div>
+      </div>
+      <p class="battle-bio"></p>
+      <div class="battle-score-box">
+        <span class="battle-label">Score</span>
+        <strong class="battle-score"></strong>
+      </div>
+      <ul class="battle-stats">
+        <li><span>Followers</span><strong class="followers"></strong></li>
+        <li><span>Public repos</span><strong class="repos"></strong></li>
+        <li><span>Total stars</span><strong class="stars"></strong></li>
+      </ul>
+      <p class="battle-status"></p>
+    </article>
+  </template>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
